@@ -22,7 +22,7 @@ internal static class Switcher
         }
     }
     
-    private static void Start()
+    internal static void Start()
     {
         OffAll();
         _startSwitch = true;
