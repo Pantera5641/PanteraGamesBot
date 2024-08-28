@@ -6,7 +6,7 @@ namespace PanteraGamesBot.Config;
 internal static class Switcher
 {
     private static bool _startSwitch;
-    private static bool _menuSwitch;
+    private static bool _dungeonFighterSwitch;
 
     internal static void OnMessageRoot(ITelegramBotClient client, Update update)
     {
@@ -16,13 +16,13 @@ internal static class Switcher
                 Start();
                 break;
 
-            case "/menu":
-                Menu();
+            case "/dungeonfighter":
+                DungeonFighter();
                 break;
         }
     }
-    
-    internal static void Start()
+
+    private static void Start()
     {
         OffAll();
         _startSwitch = true;
@@ -33,20 +33,20 @@ internal static class Switcher
         return _startSwitch;
     }
     
-    private static void Menu()
+    private static void DungeonFighter()
     {
         OffAll();
-        _menuSwitch = true;
+        _dungeonFighterSwitch = true;
     }
     
-    internal static bool GetMenu()
+    internal static bool GetDungeonFighter()
     {
-        return _menuSwitch;
+        return _dungeonFighterSwitch;
     }
     
-    private static void OffAll()
+    internal static void OffAll()
     {
          _startSwitch = false;
-         _menuSwitch = false;
+         _dungeonFighterSwitch = false;
     }
 }

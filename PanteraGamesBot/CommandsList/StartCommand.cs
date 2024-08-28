@@ -19,13 +19,11 @@ internal abstract class StartCommand
                         replyMarkup: new ReplyKeyboardRemove());
                     break;
 
-
                 case "/cancel":
                     await client.SendTextMessageAsync(update.Message?.Chat.Id ?? 6940868301,
                         text: "Ты собственно ничего и не делал");
                     Switcher.OffAll();
                     break;
-
 
                 default:
                         //Заглушка, поменять на json
