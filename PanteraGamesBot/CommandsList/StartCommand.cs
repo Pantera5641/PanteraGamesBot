@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 using PanteraGamesBot.Config;
@@ -10,7 +11,7 @@ internal abstract class StartCommand
 {
     internal static async void OnMessageStart(ITelegramBotClient client, Update update)
     {
-        if (Switcher.GetStart())
+        if (Switcher.GetStart() && update.Message?.Type == MessageType.Text)
             switch (update.Message?.Text?.ToLower())
             {
                 case "/start":
