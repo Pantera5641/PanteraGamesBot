@@ -1,5 +1,6 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace PanteraGamesBot.Games.DungeonFighter;
@@ -8,13 +9,12 @@ internal static class Interface
 {
     internal static string[] TextAlignment(string name, int[] stats)
     {
-        string statsString = $"HP:\u2800{stats[0]}\u2800MP:\u2800{stats[1]}";
+        string statsString = $"HP: {stats[0]} MP: {stats[1]}";
             
         int ident1 = Math.Abs((name.Length - statsString.Length) / 2);
-        int ident2 = 
-            Math.Abs(name.Length - statsString.Length) % 2 == 0 ? ident1 : ident1 - 1;
+        int ident2 = Math.Abs((name.Length - statsString.Length) % 2 == 0 ? ident1 : ident1 - 1);
         
-        string[] idents = new[] {new string('\u2800', count: ident1), new string('\u2800', count: ident2)};
+        string[] idents = new[] {new string(' ', count: ident1), new string(' ', count: ident2)};
 
         
         if (name.Length < statsString.Length)
@@ -31,31 +31,42 @@ internal static class Interface
 
     internal static string TextMaker(string[] playerStatsText, string[] enemyStatsText, string[] replicas)
     {
-        return $"{playerStatsText[0]}\u2800|\u2800{enemyStatsText[0]}\n" +
-               $"{playerStatsText[1]}\u2800  |\u2800{enemyStatsText[1]}\n" +
+        return $"<code>\u2800{playerStatsText[0]} | {enemyStatsText[0]}</code>\n" +
+               $"<code>\u2800{playerStatsText[1]} | {enemyStatsText[1]}</code>\n" +
                $"{replicas[0]}\n" +
                $"{replicas[1]}";
     }
-    
+
+    internal static async void MakeInlineKeyboard(ITelegramBotClient client, Update update, string text)
+    {
+            await client.SendTextMessageAsync(
+                chatId: update.CallbackQuery?.Message?.Chat.Id ?? 6940868301,
+                text: text,
+                replyMarkup: CreateInlineKeyboard(),
+                parseMode: ParseMode.Html);
+    }
+
     internal static async void EditInlineKeyboard(ITelegramBotClient client, Update update, string text)
     {
         try
         {
             await client.EditMessageTextAsync(
-            chatId: update.Message?.Chat.Id ?? 6940868301,
+            chatId: update.CallbackQuery?.Message?.Chat.Id ?? 6940868301,
             messageId: update.CallbackQuery?.Message?.MessageId ?? 0,
             text: text,
-            replyMarkup: (InlineKeyboardMarkup?)MakeInlineKeyboard());
+            replyMarkup: (InlineKeyboardMarkup?)CreateInlineKeyboard(),
+            parseMode: ParseMode.Html);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            EditInlineKeyboard(client: client,
+            EditInlineKeyboard(
+                client: client,
                 update: update,
-                text: text + "\u2800");
+                text: text + " ");
         }
     }
     
-    internal static IReplyMarkup MakeInlineKeyboard()
+    internal static IReplyMarkup CreateInlineKeyboard()
         {
             InlineKeyboardButton[][] inlineKeyboard =
             [

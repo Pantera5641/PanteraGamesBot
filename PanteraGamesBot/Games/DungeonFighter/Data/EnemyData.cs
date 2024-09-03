@@ -4,13 +4,13 @@ internal static class EnemyData
 {
     private static readonly string EnemyName = "EnemyName";
     
-    private static int _enemyHP = 45;
-    private static int _enemyMP = 20;
+    private static int _enemyHp = 45;
+    private static int _enemyMp = 20;
     
-    private static int _enemyAttack;
-    private static int _enemyTreatment;
-    private static int _enemyLostMP;
-    private static int _enemyAcquiredMP;
+    private static readonly int[] EnemyAttack = [3, 5];
+    private static readonly int[] EnemySpecialAttack = [6, 7];
+    private static readonly int EnemyTreatment = 4;
+    private static readonly int EnemyStealMp = 2;
 
 
     internal static string GetEnemyName()
@@ -20,21 +20,46 @@ internal static class EnemyData
     
     internal static int[] GetEnemyStats()
     {
-        return new int[] { _enemyHP, _enemyMP };
+        return new int[] { _enemyHp, _enemyMp };
     }
     
     internal static int GetEnemyHp()
     {
-        return _enemyHP;
+        return _enemyHp;
     }
     
-    internal static void EnemyTakingDamage(int damage)
+    internal static int GetEnemyMp()
     {
-        _enemyHP = _enemyHP - damage;
+        return _enemyMp;
+    }
+    
+    internal static int[] GetEnemyAttack()
+    {
+        return EnemyAttack;
+    }
+    
+    internal static int[] GetSpecialEnemyAttack()
+    {
+        return EnemySpecialAttack;
+    }
+    
+    internal static int GetEnemyTreatment()
+    {
+        return EnemyTreatment;
+    }
+    
+    internal static int GetEnemyStealMp()
+    {
+        return EnemyStealMp;
+    }
+    
+    internal static void SetEnemySubtractHp(int subtractHp)
+    {
+        _enemyHp -= subtractHp;
         
-        if (_enemyHP < 0)
+        if (_enemyHp < 0)
         {
-            _enemyHP = 0;
+            _enemyHp = 0;
         }
     }
 }

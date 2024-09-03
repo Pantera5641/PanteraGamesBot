@@ -16,8 +16,9 @@ internal abstract class DungeonFighterCommand
             switch (update.Message?.Text?.ToLower())
             {
                 case "/dungeonfighter":
-                    await client.SendTextMessageAsync(update.Message?.Chat.Id ?? 6940868301, "Start a fight!",
-                        replyMarkup: Interface.MakeInlineKeyboard());
+                    GameLogic.RootCommand(
+                        client: client,
+                        update: update);
                     break;
             }
         
@@ -30,15 +31,19 @@ internal abstract class DungeonFighterCommand
                 break;
             
             case "treatment":
-                await client.SendTextMessageAsync(update.Message?.Chat.Id ?? 6940868301, "Заглушка Лечение");
+                GameLogic.TreatmentCommand(
+                    client: client,
+                    update: update);
                 break;
             
             case "recharge":
-                await client.SendTextMessageAsync(update.Message?.Chat.Id ?? 6940868301, "Заглушка Перезарядка");
+                GameLogic.RechargeCommand(
+                    client: client,
+                    update: update);
                 break;
             
             case "new-game":
-                await client.SendTextMessageAsync(update.Message?.Chat.Id ?? 6940868301, "Заглушка Новая игра");
+                await client.SendTextMessageAsync(update.CallbackQuery?.Message?.Chat.Id ?? 6940868301, "Временно не работает");
                 break;
         }
     }
