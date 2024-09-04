@@ -8,6 +8,12 @@ internal static class GameLogic
 {
     internal static void RootCommand(ITelegramBotClient client, Update update, string playerReplica = "")
     {
+        string text;
+        string enemyReplica = String.Empty;
+        
+        if (playerReplica != String.Empty)
+            enemyReplica = EnemyLogic.AiAction(name: EnemyData.GetEnemyName());
+        
         string[] playerStatsText = Interface.TextAlignment(
             name: update.CallbackQuery?.From.FirstName ?? update.Message?.From?.FirstName ?? "Игрок",
             stats: PlayerData.GetPlayerStats());
@@ -15,14 +21,6 @@ internal static class GameLogic
         string[] enemyStatsText = Interface.TextAlignment(
             name: EnemyData.GetEnemyName(), 
             stats: EnemyData.GetEnemyStats());
-
-        string enemyReplica = EnemyLogic.AiAction(name: EnemyData.GetEnemyName());
-        
-        string text = Interface.TextMaker(
-            playerStatsText: playerStatsText,
-            enemyStatsText: enemyStatsText,
-            replicas: [playerReplica, enemyReplica]);
-        
         
         if (playerReplica == String.Empty)
         {
@@ -37,7 +35,12 @@ internal static class GameLogic
                 text: text);
         }
         else
-        {
+        { 
+            text = Interface.TextMaker(
+                playerStatsText: playerStatsText,
+                enemyStatsText: enemyStatsText,
+                replicas: [playerReplica, enemyReplica]);
+            
             Interface.EditInlineKeyboard(
                 client: client,
                 update: update,
