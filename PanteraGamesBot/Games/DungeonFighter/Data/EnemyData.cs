@@ -53,6 +53,26 @@ internal static class EnemyData
         return EnemyStealMp;
     }
     
+    internal static void SetEnemyAddsHp(int addHp)
+    {
+        _enemyHp += addHp;
+            
+        if (_enemyHp > 45)
+        {
+            _enemyHp = 45;
+        }
+    }
+    
+    internal static void SetEnemyAddsMp(int addMp)
+    {
+        _enemyMp += addMp;
+            
+        if (_enemyMp > 45)
+        {
+            _enemyMp = 45;
+        }
+    }
+    
     internal static void SetEnemySubtractHp(int subtractHp)
     {
         _enemyHp -= subtractHp;
@@ -60,6 +80,16 @@ internal static class EnemyData
         if (_enemyHp < 0)
         {
             _enemyHp = 0;
+        }
+    }
+    
+    internal static void SetEnemySubtractMp(int subtractMp)
+    {
+        _enemyMp -= subtractMp;
+        
+        if (_enemyMp < 0)
+        {
+            _enemyMp = 0;
         }
     }
 }

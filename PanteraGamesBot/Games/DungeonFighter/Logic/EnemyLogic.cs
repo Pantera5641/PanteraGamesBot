@@ -6,17 +6,17 @@ internal static class EnemyLogic
 {
     internal static string AiAction(string name)
     {
-        if (PlayerData.GetPlayerTreatmentCounter() >= 4)
+        if (PlayerData.GetPlayerTreatmentCounter() >= 4 && RandomChanceGenerator(chance: 0.2f) || RandomChanceGenerator(chance: 0.1f))
         {
             return EnemySpecialAttack(name: name);
         }
         
-        if (EnemyData.GetEnemyHp() <= 10 && EnemyData.GetEnemyMp() > 4)
+        if (EnemyData.GetEnemyHp() <= 10 && EnemyData.GetEnemyMp() > 4 || RandomChanceGenerator(chance: 0.4f))
         {
             return EnemyTreatment(name: name);
         }
 
-        if (EnemyData.GetEnemyMp() <= 5 && RandomChanceGenerator(chance: 0.7f))
+        if (EnemyData.GetEnemyMp() <= 5 && RandomChanceGenerator(chance: 0.6f))
         {
             return EnemyStealMp(name: name);
         }
@@ -47,12 +47,21 @@ internal static class EnemyLogic
     private static string EnemyTreatment(string name)
     {
         int treatment = EnemyData.GetEnemyTreatment();
-        return "nothing";
+        
+        EnemyData.SetEnemyAddsHp(addHp: treatment);
+        EnemyData.SetEnemySubtractMp(subtractMp: treatment);
+        
+        return $"{name} использует {treatment} маны, чтобы исцелить {treatment} урона";
     }
 
     private static string EnemyStealMp(string name)
     {
-        return "nothing";
+        int stealMp = EnemyData.GetEnemyStealMp();
+        
+        PlayerData.SetPlayerSubtractMp(subtractMp: stealMp);
+        EnemyData.SetEnemyAddsMp(addMp: stealMp);
+        
+        return $"{name} ворует у вас {stealMp} маны";
     }
     
     private static int RandomNumberGenerator(int min, int max)
