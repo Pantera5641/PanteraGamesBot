@@ -92,4 +92,10 @@ internal static class EnemyData
             _enemyMp = 0;
         }
     }
+
+    internal static void Reset()
+    {
+        _enemyHp = 45;
+        _enemyMp = 20;
+    }
 }

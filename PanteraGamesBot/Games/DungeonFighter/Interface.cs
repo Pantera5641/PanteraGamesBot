@@ -42,19 +42,30 @@ internal static class Interface
             await client.SendTextMessageAsync(
                 chatId: update.CallbackQuery?.Message?.Chat.Id ?? 6940868301,
                 text: text,
-                replyMarkup: CreateInlineKeyboard(),
+                replyMarkup: CreatePlayInlineKeyboard(),
                 parseMode: ParseMode.Html);
     }
 
-    internal static async void EditInlineKeyboard(ITelegramBotClient client, Update update, string text)
+    internal static async void EditInlineKeyboard(ITelegramBotClient client, Update update, string text, bool deathTrue = false)
     {
+        InlineKeyboardMarkup? replyMarkup;
+        
+        if (!deathTrue)
+        {
+            replyMarkup = (InlineKeyboardMarkup?)CreatePlayInlineKeyboard();
+        }
+        else
+        {
+            replyMarkup = (InlineKeyboardMarkup?)CreateDeathInlineKeyboard();
+        }
+        
         try
         {
             await client.EditMessageTextAsync(
             chatId: update.CallbackQuery?.Message?.Chat.Id ?? 6940868301,
             messageId: update.CallbackQuery?.Message?.MessageId ?? 0,
             text: text,
-            replyMarkup: (InlineKeyboardMarkup?)CreateInlineKeyboard(),
+            replyMarkup: replyMarkup,
             parseMode: ParseMode.Html);
         }
         catch (Exception)
@@ -65,8 +76,8 @@ internal static class Interface
                 text: text + " ");
         }
     }
-    
-    internal static IReplyMarkup CreateInlineKeyboard()
+
+    private static IReplyMarkup CreatePlayInlineKeyboard()
         {
             InlineKeyboardButton[][] inlineKeyboard =
             [
@@ -86,4 +97,19 @@ internal static class Interface
             
             return inlineKeyboardMarkup;
         }
+    
+    private static IReplyMarkup CreateDeathInlineKeyboard()
+    {
+        InlineKeyboardButton[][] inlineKeyboard =
+        [
+            new []
+            {
+                InlineKeyboardButton.WithCallbackData(text: "Новая игра", callbackData: "new-game")
+            },
+        ];
+            
+        InlineKeyboardMarkup inlineKeyboardMarkup = new(inlineKeyboard: inlineKeyboard);
+            
+        return inlineKeyboardMarkup;
+    }
 }

@@ -1,3 +1,6 @@
+using Telegram.Bot;
+using Telegram.Bot.Types;
+
 using PanteraGamesBot.Games.DungeonFighter.Data;
 
 namespace PanteraGamesBot.Games.DungeonFighter.Logic;
@@ -43,6 +46,18 @@ internal static class PlayerLogic
         PlayerData.SetPlayerAddsMp(addsMp: rndRecharge);
             
         return $"Вы перезаряжаете {rndRecharge} магии";
+    }
+
+    internal static void PlayerDeath(ITelegramBotClient client, Update update)
+    {
+        string text = "вы умерли";
+        
+        Interface.EditInlineKeyboard(
+            client: client,
+            update: update,
+            text: text,
+            deathTrue: true
+            );
     }
 
     private static int RandomNumberGenerator(int min, int max)

@@ -3,7 +3,6 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 using PanteraGamesBot.Config;
-using PanteraGamesBot.Games.DungeonFighter;
 using PanteraGamesBot.Games.DungeonFighter.Logic;
 
 namespace PanteraGamesBot.CommandsList;

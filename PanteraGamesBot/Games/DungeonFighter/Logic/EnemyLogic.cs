@@ -1,3 +1,6 @@
+using Telegram.Bot;
+using Telegram.Bot.Types;
+
 using PanteraGamesBot.Games.DungeonFighter.Data;
 
 namespace PanteraGamesBot.Games.DungeonFighter.Logic;
@@ -11,7 +14,7 @@ internal static class EnemyLogic
             return EnemySpecialAttack(name: name);
         }
         
-        if (EnemyData.GetEnemyHp() <= 10 && EnemyData.GetEnemyMp() > 4 || RandomChanceGenerator(chance: 0.4f))
+        if (EnemyData.GetEnemyHp() <= 10 && EnemyData.GetEnemyMp() > 4 || RandomChanceGenerator(chance: 0.2f))
         {
             return EnemyTreatment(name: name);
         }
@@ -62,6 +65,18 @@ internal static class EnemyLogic
         EnemyData.SetEnemyAddsMp(addMp: stealMp);
         
         return $"{name} ворует у вас {stealMp} маны";
+    }
+    
+    internal static void EnemyDeath(ITelegramBotClient client, Update update, string name)
+    {
+        string text = "монстр умер";
+        
+        Interface.EditInlineKeyboard(
+            client: client,
+            update: update,
+            text: text,
+            deathTrue: true
+        );
     }
     
     private static int RandomNumberGenerator(int min, int max)

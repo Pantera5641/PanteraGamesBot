@@ -10,13 +10,24 @@ internal static class PlayerData
     private static readonly int[] PlayerSubtractMp = [1, 2];
     private static readonly int[] PlayerRecharge = [4, 6];
     
-    private static int _treatmentCounter = 0;
+    private static int _treatmentCounter;
 
     
     internal static int[] GetPlayerStats()
     {
         return new int[] { _playerHp, _playerMp };
     }
+    
+    internal static int GetPlayerHp()
+    {
+        return _playerHp;
+    }
+    
+    internal static int GetPlayerMp()
+    {
+        return _playerMp;
+    }
+    
     internal static int[] GetPlayerAttack()
     {
         return PlayerAttack;
@@ -90,5 +101,11 @@ internal static class PlayerData
         {
             _playerMp = 0;
         }
+    }
+    
+    internal static void Reset()
+    {
+        _playerHp = 30;
+        _playerMp = 10;
     }
 }

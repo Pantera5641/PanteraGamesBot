@@ -1,6 +1,7 @@
-using PanteraGamesBot.Games.DungeonFighter.Data;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+
+using PanteraGamesBot.Games.DungeonFighter.Data;
 
 namespace PanteraGamesBot.Games.DungeonFighter.Logic;
 
@@ -12,6 +13,27 @@ internal static class GameLogic
         
         if (playerReplica != String.Empty)
             enemyReplica = EnemyLogic.AiAction(name: EnemyData.GetEnemyName());
+        
+        if (PlayerData.GetPlayerHp() <= 0 || PlayerData.GetPlayerMp() <= 0)
+        {
+            PlayerLogic.PlayerDeath(
+                client: client,
+                update: update);
+            
+            ResetGame();
+            return;
+        }
+        
+        if (EnemyData.GetEnemyHp() <= 0 || EnemyData.GetEnemyMp() <= 0)
+        {
+            EnemyLogic.EnemyDeath(
+                client: client,
+                update: update,
+                name: EnemyData.GetEnemyName());
+            
+            ResetGame();
+            return;
+        }
         
         string[] playerStatsText = Interface.TextAlignment(
             name: update.CallbackQuery?.From.FirstName ?? update.Message?.From?.FirstName ?? "Игрок",
@@ -73,5 +95,11 @@ internal static class GameLogic
             update: update,
             playerReplica: playerReplica
         );
+    }
+
+    private static void ResetGame()
+    {
+        PlayerData.Reset();
+        EnemyData.Reset();
     }
 }
