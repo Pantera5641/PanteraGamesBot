@@ -40,7 +40,7 @@ internal static class Interface
     internal static async void MakeInlineKeyboard(ITelegramBotClient client, Update update, string text)
     {
             await client.SendTextMessageAsync(
-                chatId: update.CallbackQuery?.Message?.Chat.Id ?? 6940868301,
+                chatId: update.Message?.Chat.Id ?? 6940868301,
                 text: text,
                 replyMarkup: CreatePlayInlineKeyboard(),
                 parseMode: ParseMode.Html);
