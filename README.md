@@ -1,5 +1,7 @@
-wget https://github.com/probonopd/linuxdeployqt/releases/latest/download/linuxdeployqt-continuous-x86_64.AppImage
+mkdir -p AppDir/usr/bin
+cp LyriumAPM AppDir/usr/bin/
 
-chmod +x linuxdeployqt-continuous-x86_64.AppImage
+mkdir -p AppDir/usr/share/applications
+nano AppDir/usr/share/applications/lyrium.desktop
 
-sudo mv linuxdeployqt-continuous-x86_64.AppImage /usr/local/bin/linuxdeployqt
+linuxdeployqt AppDir/usr/bin/LyriumAPM -appimage
